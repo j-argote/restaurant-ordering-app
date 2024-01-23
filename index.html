@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Smythe&display=swap" rel="stylesheet">
+    <!-- CSS stylesheet -->
+    <link rel="stylesheet" href="/index.css">
+    <title>Jimmy's Diner</title>
+</head>
+<body>
+    <header>
+        <h1>Jimmy's Diner</h1>
+        <h2 class="margin-top-5 font-22">The best burgers and pizzas in town</h2>
+    </header>
+    <main>
+        <section>
+            <ul id="menu">
+            </ul>
+        </section>
+        <section class="shopping-cart-container" id="shopping-cart-container" hidden>
+            <h2 class="shopping-cart-title margin-top45 margin-bottom60">Your order</h2>
+            <ul id="shopping-cart">
+            </ul>
+            <div class="total-container">
+                <p>Total price:</p>
+                <p class="margin-left-auto" id="cart-total">$26</p>
+            </div>
+            <button class="green-btn">Complete order</button>
+        </section>
+    </main>
+    <aside hidden>
+        <button class="close-modal-btn font-22">X</button>
+        <h2 class="card-info-title margin-top45">Enter card details</h2>
+        <form>
+            <input type="text" name="fullName" placeholder="Enter your name" aria-label="Full name" required>
+            <input type="number" name="credCardNum" placeholder="Enter your card number" aria-label="Credit card number" required>
+            <input type="number" name="cvv" placeholder="Enter your CVV" aria-label="Security number on card" required>
+            <button class="green-btn">Pay</button>
+        </form>
+    </aside>
+    <script src="index.js" type="module"></script>
+</body>
+</html>
