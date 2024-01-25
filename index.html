@@ -3,48 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google fonts -->
+    <!-- CSS style sheet -->
+    <link rel="stylesheet" href="index.css">
+    <!-- Google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Smythe&display=swap" rel="stylesheet">
-    <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="/index.css">
-    <title>Jimmy's Diner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap" rel="stylesheet">
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/71d51b43d1.js" crossorigin="anonymous"></script>
+    <title>Restaurant App</title>
 </head>
 <body>
-    <header>
-        <h1>Jimmy's Diner</h1>
-        <h2 class="margin-top-5 font-22">The best burgers and pizzas in town</h2>
-    </header>
-    <main>
-        <section>
-            <ul id="menu">
-            </ul>
-        </section>
-        <section class="shopping-cart-container" id="shopping-cart-container" hidden>
-            <h2 class="shopping-cart-title margin-top45 margin-bottom60">Your order</h2>
-            <ul id="shopping-cart">
-            </ul>
-            <div class="total-container">
-                <p>Total price:</p>
-                <p class="margin-left-auto" id="cart-total">$26</p>
+    <div class="container">
+        <header class="hero">
+            <div class="hero-text">
+                <p class="restaurant-name">Jimmy's Diner</p>
+                <p class="restaurant-quote">The best burgers and pizzas in town.</p>
             </div>
-            <button class="green-btn" id="complete-order-btn">Complete order</button>
-        </section>
-        <div class="order-complete-message margin-top45 margin-bottom60" id="message-container" hidden>
-            <p class="message" id="message"></p>
-        </div>
-    </main>
-    <aside id="payment-modal" hidden>
-        <button class="close-modal-btn font-22" id="close-modal-btn">X</button>
-        <h2 class="card-info-title margin-top45">Enter card details</h2>
-        <form>
-            <input type="text" name="fullName" placeholder="Enter your name" aria-label="Full name" required>
-            <input type="number" name="credCardNum" placeholder="Enter your card number" aria-label="Credit card number" required>
-            <input type="number" name="cvv" placeholder="Enter your CVV" aria-label="Security number on card" required>
-            <button type="submit" class="green-btn" id="pay-btn">Pay</button>
-        </form>
-    </aside>
-    <script src="index.js" type="module"></script>
+        </header>
+        <main>
+            <section class="menu-items-container" id="menu-items"></section>
+            <section class="shopping-cart-container" id="shopping-cart-container" hidden>
+                <p class="shopping-cart-title">Your order</p>
+                <div id="items-added-container"></div>
+                <div class="cart-total-container">
+                    <p class="item-name">Total price:</p>
+                    <p class="item-price" id="total-price"></p>
+                </div>
+                <button class="submit-order-btn" id="submit-order-btn">Complete Order</button>
+            </section>
+        </main>
+        <aside class="payment-modal" id="payment-modal" hidden>
+            <div id="modal-container" hidden>
+                <div class="close-modal-btn-container">
+                    <button class="modal-close-btn" id="modal-close-btn">X</button>
+                </div>
+                <h2 class="modal-title">Enter card details</h2>
+                <form id="pay-order-form">
+                    <input type="text" id="name" name="fullName" placeholder="Enter your name" aria-label="Name" required>
+                    <input type="text" id="card-number" name="cardNumber" placeholder="Enter card number" aria-label="Card number" required>
+                    <input type="text" id="cvv" name="cvv" placeholder="Enter cvv" aria-label="CVV" required>
+                    <button class="pay-btn" id="submit-pay-btn" type="submit">Pay</button>
+                </form>
+            </div>
+            <div class="message" id="message-container" hidden>
+            </div>
+        </aside>
+
+    </div>
+<script src="index.js" type="module"></script>
 </body>
 </html>

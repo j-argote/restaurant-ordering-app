@@ -1,27 +1,27 @@
-export const menuArray = [
+const menuArray = [
     {
         name: "Pizza",
         ingredients: ["pepperoni", "mushrom", "mozarella"],
+        id: 0,
         price: 14,
-        image: "images/pizza.jpg",
-        altTxt: "Photo of a full pepperoni pizza from the top view.",
-        id: 0
+        itemImg: "./images/pizza.jpg",
+        altText: "Image of a pizza"
     },
     {
         name: "Hamburger",
         ingredients: ["beef", "cheese", "lettuce"],
+        id: 1,
         price: 12,
-        image: "images/burger.jpg",
-        altTxt: "Sideview photo of a hamburger with sauce dripping.",
-        id: 1
+        itemImg: "./images/burger.jpg",
+        altText: "Image of a hamburger"
     },
         {
         name: "Beer",
         ingredients: ["grain, hops, yeast, water"],
+        id: 2,
         price: 12,
-        image: "images/beer.jpg",
-        altTxt: "Sideview photo of a full beer mug glass",
-        id: 2
+        itemImg: "./images/beer.jpg",
+        altText: "Image of a full glass of beer"
     }
 ]
 
