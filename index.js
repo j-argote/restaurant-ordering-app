@@ -1,106 +1,111 @@
-import menuArray from "./data.js"
+import { menuArray } from "./assets/data.js"
+import { cartItemCounts, toggleHidden, togglePointerEvents, updateCartItemCount, updateItemTotal, updateTotal, resetCartItemCountsObj, resetOrderTotal } from "./assets/toggleAndUpdateFunctions.js"
 
-let total = 0
-
-function menuHtml() {
-    return menuArray.map(item => {
-    const {name, ingredients, id, price, itemImg, altText} = item
-    
-    return `
-    <article class="item-container">
-        <img class="item-img" src="${itemImg}" alt="${altText}">
-        <div class="item-info-container">
-            <p class="item-name">${name}</p>
-            <p class="item-description">${ingredients}</p>
-            <p class="item-price">$${price}</p>
-        </div>
-        <button class="add-item-btn" id="${id}" data-add=${id}>+</button>
-    </article>
-    `
-    }).join('')
-}
-
-function renderHtml() {
-    document.getElementById("menu-items").innerHTML = menuHtml()
-}
-
-renderHtml()
-
-
-document.addEventListener('click', function(e){
-    if(e.target.dataset.add) {
-        document.getElementById("shopping-cart-container").removeAttribute("hidden")
-        handleAddToCart(parseInt(e.target.dataset.add))
+document.addEventListener("click", e => {
+    if(e.target.id === "add-to-cart-btn"){
+        if(!document.getElementById("message-container").hasAttribute("hidden")){
+            toggleHidden("message-container", true)
+        }
+        handleCart(e.target.dataset.addToCart)
     }
-    else if(e.target.dataset.remove) {
-        handleRemoveFromCart(parseInt(e.target.dataset.remove))
+    else if(e.target.id === "remove"){
+        removeItemFromCart(e.target.dataset.id)
     }
-    else if(document.getElementById("submit-order-btn").id === e.target.id){
-        handleSubmitOrder(document.getElementById("payment-modal"))
+    else if(e.target.id === "complete-order-btn"){
+        togglePointerEvents("none")
+        toggleHidden("payment-modal", false)
     }
-    else if(document.getElementById("modal-close-btn").id === e.target.id){
-        handleCloseModal(document.getElementById("payment-modal"))
-    }
-    else if(document.getElementById("submit-pay-btn").id === e.target.id){
-        e.preventDefault()
-        handlePayOrder()
+    else if(e.target.id === "close-modal-btn"){
+        toggleHidden("payment-modal", true)
+        togglePointerEvents(null)
+        document.querySelector("form").reset()
     }
 })
 
-function handleAddToCart(itemId) {
-    const selectedItem = menuArray.filter(item => itemId === item.id ? item : null)[0]
-    document.getElementById("items-added-container").innerHTML += cartItemHtml(selectedItem)
-}
+document.addEventListener("submit", e => {
+    e.preventDefault()
+    resetCartItemCountsObj()
+    resetOrderTotal()
+    toggleHidden("payment-modal", true)
+    toggleHidden("message-container", false)
+    togglePointerEvents(null)
+    paymentSubmittedMessage()
+    document.querySelector("form").reset()
+    document.getElementById("shopping-cart").innerHTML = ""
+})
 
-function cartItemHtml(item) {
-    const {name, price, id} = item
-    handleTotal(price, "add")
-    return `
-        <div class="cart-item-container" id="cart-${id}">
-            <p class="item-name">${name}</p>
-            <button class="cart-remove" data-remove="${id}">remove</button>
-            <p class="item-price cart-price" id="cart-item-price${id}">$${price}</p>
-        </div>
-        `
-}
-
-function handleTotal(price, operation = null) {
-    if(operation === "add"){
-        total += price
+function handleCart(itemId) {
+    const selectedItemObj = getSelectedItemObj(itemId)
+    if(!(itemId in cartItemCounts)) {
+        document.getElementById("shopping-cart").innerHTML += createShoppingCartHtml(selectedItemObj, cartItemCounts[itemId] = 1)
+        toggleHidden("shopping-cart-container", false)
     }
     else {
-        total -= price
+        cartItemCounts[itemId] += 1
+        updateCartItemCount(itemId)
+        updateItemTotal(selectedItemObj)
     }
-    return document.getElementById("total-price").innerHTML = `$${total}`
+    updateTotal("add", selectedItemObj.price)
 }
 
-function handleRemoveFromCart(itemId) {
-    const item = menuArray.filter(item => {
-        return itemId === item.id ? item : null
-    })[0]
+function getSelectedItemObj(itemId) {
+    return menuArray.filter(item => parseInt(itemId) === item.id ? item : null)[0]
+}
+
+function createShoppingCartHtml(item, count) {
+    const { name, price, id } = item
+    return `<li class="shopping-cart-item">
+                <p>${name}</p>
+                <p class="shopping-cart-remove font-12" id="remove" data-id="${id}">remove</p>
+                <p class="margin-left20" id="${id}">x${count}</p>
+                <p class="margin-left-auto" id="${id}-cart-price">$${price}</p>
+            </li>`
+}
+
+function removeItemFromCart(itemId) {
+    const selectedItemObj = getSelectedItemObj(itemId)
+    cartItemCounts[itemId] -= 1
+    updateCartItemCount(itemId)
+    updateItemTotal(selectedItemObj)
+    updateTotal("subtract", selectedItemObj.price)
     
-    handleTotal(item.price)
-    document.getElementById(`cart-${itemId}`).remove()
-    document.getElementById("items-added-container").childElementCount === 0 ? 
-        document.getElementById("shopping-cart-container").setAttribute("hidden", true) : null
+    if(cartItemCounts[itemId] === 0){
+        document.getElementById(`${itemId}`).parentElement.remove()
+        delete cartItemCounts[itemId]
+    }
+    
+    if(document.getElementById("shopping-cart").childElementCount === 0) {
+        toggleHidden("shopping-cart-container", true)
+    }
 }
 
-function handleSubmitOrder(submitEl) {
-    submitEl.removeAttribute("hidden")
-    document.getElementById("modal-container").removeAttribute("hidden")
-    document.querySelector("main").style.pointerEvents = "none"
+function paymentSubmittedMessage() {
+    const name = document.querySelector('[name="fullName"]').value
+    toggleHidden("shopping-cart-container", true)
+    document.getElementById("message").innerHTML = `Thanks, ${name}! Your order is on its way!`
 }
 
-function handleCloseModal(modalEl) {
-    modalEl.setAttribute("hidden", true)
-    document.querySelector("main").style.pointerEvents = null
+function getMenuHtml() {
+    let menuHtml = ''
+
+    menuArray.forEach(item => {
+        const { name, ingredients, price, image, altTxt, id } = item
+        menuHtml += `
+        <li class="menu-item-container">
+            <img src="${image}" alt="${altTxt}">
+            <div class="menu-item-text-container">
+                <p>${name}</p>
+                <p class="menu-item-description">${ingredients.join(', ')}</p>
+                <p>$${price}</p>
+            </div>
+            <button class="menu-add-btn" id="add-to-cart-btn" data-add-to-cart="${id}">+</button>
+        </li>`
+    })
+    return menuHtml
 }
 
-function handlePayOrder() {
-    const name = document.getElementById("pay-order-form").elements["fullName"].value
-    const messageEl = document.getElementById("message-container")
-    document.getElementById("modal-container").setAttribute("hidden", true)
-    messageEl.innerText = `Thank you ${name}! Your order has been submitted`
+function renderMenu() {
+    document.getElementById("menu").innerHTML = getMenuHtml()
 }
 
-
+renderMenu()
