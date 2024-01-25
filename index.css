@@ -1,3 +1,9 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -113,7 +119,6 @@ img {
 }
 
 aside {
-    border: 1px solid red;
     text-align: center;
     width: 350px;
     height: fit-content;
@@ -140,6 +145,14 @@ input {
     margin-top: 15px;
 }
 
+.order-complete-message {
+    background-color: #ECFDF5;
+    padding: 50px;
+    text-align: center;
+    color: #065F46;
+    border-radius: 5px;
+}
+
 /* typography */
 h1 {
     font-size: 40px;
@@ -153,7 +166,7 @@ p, h2{
     font-size: 28px;
 }
 
-.menu-add-btn {
+.menu-add-btn, .message {
     font-size: 32px;
 }
 

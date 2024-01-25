@@ -29,17 +29,20 @@
                 <p>Total price:</p>
                 <p class="margin-left-auto" id="cart-total">$26</p>
             </div>
-            <button class="green-btn">Complete order</button>
+            <button class="green-btn" id="complete-order-btn">Complete order</button>
         </section>
+        <div class="order-complete-message margin-top45 margin-bottom60" id="message-container" hidden>
+            <p class="message" id="message"></p>
+        </div>
     </main>
-    <aside hidden>
-        <button class="close-modal-btn font-22">X</button>
+    <aside id="payment-modal" hidden>
+        <button class="close-modal-btn font-22" id="close-modal-btn">X</button>
         <h2 class="card-info-title margin-top45">Enter card details</h2>
         <form>
             <input type="text" name="fullName" placeholder="Enter your name" aria-label="Full name" required>
             <input type="number" name="credCardNum" placeholder="Enter your card number" aria-label="Credit card number" required>
             <input type="number" name="cvv" placeholder="Enter your CVV" aria-label="Security number on card" required>
-            <button class="green-btn">Pay</button>
+            <button type="submit" class="green-btn" id="pay-btn">Pay</button>
         </form>
     </aside>
     <script src="index.js" type="module"></script>
