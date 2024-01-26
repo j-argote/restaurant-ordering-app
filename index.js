@@ -82,7 +82,7 @@ function removeItemFromCart(itemId) {
 function paymentSubmittedMessage() {
     const name = document.querySelector('[name="fullName"]').value
     toggleHidden("shopping-cart-container", true)
-    document.getElementById("message").innerHTML = `Thanks, ${name}! Your order is on its way!`
+    document.getElementById("message").textContent = `Thanks, ${name}! Your order is on its way!`
 }
 
 function getMenuHtml() {
